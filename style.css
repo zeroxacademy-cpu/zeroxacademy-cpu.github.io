@@ -172,3 +172,9 @@ input,select,textarea{width:100%}
 .team-home-person-yasmin>span{z-index:1}
 @media(max-width:980px){.team-home-teaser{grid-template-columns:1fr;gap:22px}.team-home-gallery{max-width:560px;order:1}.team-home-copy{order:2}.team-home-teaser>.btn{order:3;justify-self:start}}
 @media(max-width:620px){.team-home-gallery{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}.team-home-person{border-radius:10px}.team-home-person>span{padding:19px 3px 5px}.team-home-person>span strong{font-size:10px}.team-home-person>span small{font-size:8px}.team-home-avatar{font-size:52px}.team-home-teaser>.btn{width:100%;justify-self:stretch}}
+
+/* V10.1 — show full team portraits (square photos) */
+.team-portrait,.team-portrait-member{height:auto!important;aspect-ratio:1/1}
+.team-portrait img,.team-portrait-member img{object-fit:cover;object-position:center top!important}
+.team-home-person{aspect-ratio:1/1}
+.team-home-person>img{object-position:center top!important}
