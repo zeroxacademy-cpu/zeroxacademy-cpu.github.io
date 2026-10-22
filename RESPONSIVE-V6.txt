@@ -1,0 +1,6 @@
+ZERO X V7 Responsive
+- Preserves supplied mobile/tablet/desktop responsive layout.
+- Adds responsive Services and Academies & Branches pages.
+- Adds responsive homepage preview cards for services and expansion.
+- Navigation is updated for the expanded site map.
+- Existing course cards, account pages, payment flow, and student dashboard styles retained.

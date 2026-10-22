@@ -1,0 +1,18 @@
+ZERO X V10 — UPDATED HOMEPAGE PORTRAIT + TEAM VISUAL
+
+Based on V9; existing pricing, course IDs, registration, login, payment requests, branch pages, lead form, and server implementation are retained.
+
+V10 changes:
+- Replaced the homepage hero portrait with the latest user-supplied portrait (assets/alaa-home.jpg).
+- Reused that updated portrait in the homepage founder/about section and founder team card for consistency.
+- Added a visible homepage team portrait strip with images and role labels for Alaa, Ahmad, and Jamal; Yasmin has a designed monogram card without a personal photo, as requested.
+- Removed stale team-card notes that said Ahmad and Jamal's pictures were still pending.
+- Added responsive sizing and object positioning for the updated photo layout.
+- Compressed supplied portraits as optimized JPG assets.
+
+To run locally:
+  1. Ensure Node.js 18+ is installed.
+  2. Run `node server.js` from this project directory.
+  3. Open http://localhost:3000
+
+The site is not deployed by creating this ZIP. Recheck the photo display at desktop/mobile widths before uploading it to the live host.

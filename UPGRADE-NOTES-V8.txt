@@ -1,0 +1,16 @@
+ZERO X V8 — BRANCH AND LEAD INTAKE UPGRADE
+
+Built on the supplied V7 project; original courses, prices, payment details, login, student dashboard, and existing backend routes are retained.
+
+1. Replaced generic expansion card with explicit planned ZERO X academy locations in Damascus and Latakia.
+2. Clearly marks both city branches as in preparation and does not invent street addresses or opening dates.
+3. Added a public inquiry / interest form for city, service interest, contact method, and note.
+4. Added server-side validation, required consent, simple honeypot spam trap, and basic per-IP throttling.
+5. Stores lead requests in data/db.json and exposes them only via the authenticated admin API.
+6. Added an admin panel section for lead requests and status changes: new, contacted, registered, not interested.
+7. Added CTAs to lead intake from services and home page.
+8. Preserved existing course prices and service prices.
+
+Run locally: node server.js (Node.js 18+). Admin endpoints require a user with role=admin; the provided server supports bootstrapping an admin through ADMIN_EMAIL and ADMIN_PASSWORD environment variables.
+
+Production note: this starter backend stores data in a JSON file and uses in-memory rate limiting; use persistent database storage and review privacy/security requirements before scaling.

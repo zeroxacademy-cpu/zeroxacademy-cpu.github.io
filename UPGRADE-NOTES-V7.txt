@@ -1,0 +1,12 @@
+ZERO X V7 — CHANGE SUMMARY
+
+1. Retained supplied project and backend rather than rebuilding from scratch.
+2. Kept all existing prices and course IDs as supplied.
+3. Added Services and Academies & Branches navigation destinations for desktop/mobile.
+4. Added a consolidated services page with current prices/status and links to existing pages.
+5. Added an academies page that distinguishes current online programs from the not-yet-confirmed second academy.
+6. Added home-page sections linking to services and expansion information.
+7. Added footer risk note and responsive design rules for new cards.
+
+To review locally, extract the ZIP and run `node server.js` from the project folder.
+The new pages are frontend pages served by the existing server; they do not require new packages.

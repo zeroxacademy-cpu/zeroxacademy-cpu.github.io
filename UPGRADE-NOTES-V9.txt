@@ -1,0 +1,21 @@
+ZERO X V9 — TEAM PAGE + APPROVED PORTRAITS
+
+Based on the V8 project supplied/established in this session; the existing pricing, course ids, service pages, academies page, lead form and server endpoints have been retained.
+
+V9 changes:
+- Added team.html to the existing navigation, footer and home page.
+- Added a responsive Team ZERO X page with role descriptions for Alaa Hamdo, Ahmad, Jamal and Yasmin.
+- Added the user's supplied image to Alaa's team profile only; the pre-existing home/about imagery remains unchanged.
+- Added the supplied third image as Ahmad's portrait, and the supplied second image as Jamal's portrait.
+- Yasmin intentionally remains represented by a branded Arabic-initial card without a personal photo, per the owner's instruction.
+- Compressed portraits to web-ready JPGs in assets/team-alaa.jpg, assets/team-ahmad.jpg and assets/team-jamal.jpg.
+
+To run locally:
+  1. Ensure Node.js 18+ is installed.
+  2. Run `node server.js` from this project directory.
+  3. Open http://localhost:3000 and choose “فريقنا” or open /team.html directly.
+
+Before public deployment:
+- Verify text/roles and ensure everyone agrees to the public use of their photo.
+- Review privacy/security and persistence settings for lead/customer data.
+- Existing source pricing/services are preserved, not independently revalidated.
