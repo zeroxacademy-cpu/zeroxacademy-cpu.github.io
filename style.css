@@ -178,3 +178,6 @@ input,select,textarea{width:100%}
 .team-portrait img,.team-portrait-member img{object-fit:cover;object-position:center top!important}
 .team-home-person{aspect-ratio:1/1}
 .team-home-person>img{object-position:center top!important}
+
+/* V10.2 — keep footer inside the page width on desktop */
+.footer .footer-grid.container{width:min(1120px,calc(100% - 40px))!important;margin-left:auto;margin-right:auto}
