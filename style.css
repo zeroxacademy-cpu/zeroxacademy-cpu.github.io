@@ -76,7 +76,9 @@ input,select,textarea{width:100%}
 .consent-row input{width:18px;min-width:18px;margin-top:5px;accent-color:var(--red)}
 .privacy-hint{font-size:12px;line-height:1.7;margin-bottom:0}
 .form-message{margin:14px 0;line-height:1.8}
-.lead-honey{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.lead-honey{position:absolute!important;right:0!important;left:auto!important;top:0!important;width:1px!important;height:1px!important;overflow:hidden!important;clip:rect(0 0 0 0)!important;clip-path:inset(50%)!important;white-space:nowrap!important;opacity:0!important;pointer-events:none!important}
+.lead-form,.form{position:relative}
+@supports (overflow:clip){html,body{overflow-x:clip}}
 .lead-admin-item{padding:18px 0;border-bottom:1px solid var(--line)}
 .lead-admin-head{display:flex;justify-content:space-between;align-items:flex-start;gap:15px}
 .lead-admin-head .muted{font-size:12px;margin-top:3px}
@@ -246,3 +248,38 @@ input,select,textarea{width:100%}
 .navactions .btn{white-space:nowrap}
 .zx-table td>span[dir=ltr]{white-space:nowrap}
 @media(max-width:620px){.dash-main .statgrid{grid-template-columns:repeat(3,1fr)!important;gap:8px}.dash-main .stat{padding:12px 10px}.dash-main .stat small{font-size:11px}.dash-main .zx-num{font-size:22px}}
+
+/* v16 — admin «الاستفسارات» tab */
+.zx-tabs{display:flex;gap:8px;margin:0 0 18px;border-bottom:2px solid var(--line);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.zx-tab{border:0;background:none;padding:12px 16px;font:inherit;font-weight:900;font-size:15px;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;display:flex;align-items:center;gap:6px}
+.zx-tab.on{color:var(--red);border-bottom-color:var(--red)}
+.zx-count{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--red);color:#fff;font-size:12px;font-weight:900}
+.zx-badge.s-new{background:#fbe9ec;color:var(--red)}
+.zx-badge.t-inquiry{background:#f3f1ef;color:#444}
+.zx-badge.t-consultation{background:#fdf3e0;color:#93600a}
+.zx-contact{display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.zx-contact bdi{white-space:nowrap;font-weight:700}
+.zx-wa{display:inline-block;background:#e7f5ec;color:#22693f;border-radius:999px;padding:4px 10px;font-size:12px;font-weight:900;text-decoration:none;white-space:nowrap}
+.zx-wa:hover{background:#d3eedd}
+.zx-note-full{max-width:260px;font-size:13px;white-space:pre-wrap;overflow-wrap:anywhere}
+.zx-leads tr.zx-new td:first-child{box-shadow:inset -3px 0 0 var(--red)}
+@media(max-width:760px){
+  .zx-contact{align-items:flex-end}
+  .zx-contact bdi{white-space:normal;overflow-wrap:anywhere}
+  .zx-note-full{max-width:none;text-align:left}
+  .zx-leads tr.zx-new{border-color:#efc3cc}
+  .zx-leads tr.zx-new td:first-child{box-shadow:none}
+  .zx-tab{flex:1;justify-content:center;padding:12px 8px;font-size:14px}
+}
+.form-message.is-ok{background:#e7f5ec;border-color:#bfe3cc;color:#1f5e38}
+.zx-leads .zx-btns .btn{white-space:nowrap}
+/* v17 — paid consultation form */
+.zx-who{background:#faf7f2;border:1px solid #eee3d3;border-radius:12px;padding:10px 12px;margin:0 0 16px;display:flex;flex-direction:column;gap:3px;overflow-wrap:anywhere}
+.zx-price-row{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #eee;padding:14px 0 10px;margin-top:4px;font-weight:700}
+.zx-price-row strong{font-size:26px;color:var(--red)}
+.zx-consults tr.zx-new td:first-child{box-shadow:inset -3px 0 0 #a86b00}
+.zx-consults .zx-btns .btn{white-space:nowrap}
+@media(max-width:760px){.zx-consults tr.zx-new{border-color:#ecd3a3}.zx-consults tr.zx-new td:first-child{box-shadow:none}
+  .zx-tabs{gap:2px;overflow:visible}
+  .zx-tab{flex:1 1 0;min-width:0;padding:10px 2px;font-size:13px;white-space:normal;text-align:center;line-height:1.35;flex-wrap:wrap;gap:4px}
+  .zx-tab .zx-count{min-width:20px;height:20px;font-size:11px}}

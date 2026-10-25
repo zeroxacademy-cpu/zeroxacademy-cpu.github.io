@@ -63,6 +63,7 @@ export async function createPayment(p) {
     uid: p.uid, name: p.name, phone: p.phone, city: p.city || '', email: p.email || '',
     course: p.course, courseTitle: p.courseTitle, price: p.price,
     method: p.method, note: p.note || '',
+    ...(p.course === 'consultation' ? { consultType: String(p.consultType || '').slice(0, 80), contactMethod: String(p.contactMethod || '').slice(0, 40) } : {}),
     status: 'pending', txId: '', createdAt: F.serverTimestamp()
   }));
   return ref.id;
@@ -76,4 +77,18 @@ export async function updatePayment(id, patch) {
   if ('status' in patch) { data.reviewedAt = F.serverTimestamp(); data.reviewedBy = auth.currentUser ? auth.currentUser.email : ''; }
   await T(F.updateDoc(F.doc(db, 'payments', id), data));
 }
+// ---- leads: the academies inquiry form. Anyone (even not signed in) may create; only admins read/update.
+// (Paid consultations are not leads: they are payments with course 'consultation'.) ----
+const cut = (v, n) => String(v ?? '').trim().slice(0, n);
+export async function createLead(l) {
+  const ref = await T(F.addDoc(F.collection(db, 'leads'), {
+    type: 'inquiry',
+    name: cut(l.name, 80), contact: cut(l.contact, 120), contactMethod: cut(l.contactMethod, 40),
+    city: cut(l.city, 60), interest: cut(l.interest, 80), message: cut(l.message, 500),
+    status: 'new', createdAt: F.serverTimestamp()
+  }));
+  return ref.id;
+}
+export async function allLeads() { const s = await T(F.getDocs(F.collection(db, 'leads'))); return s.docs.map(norm).sort((a, b) => b.createdAt - a.createdAt); }
+export async function updateLead(id, patch) { await T(F.updateDoc(F.doc(db, 'leads', id), patch)); }
 export async function deleteAccountSelf() { if (auth.currentUser) await A.deleteUser(auth.currentUser); }
