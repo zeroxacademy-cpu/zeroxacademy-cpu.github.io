@@ -1,0 +1,104 @@
+انسخ كل النص يلي تحت الخط (من rules_version لآخر قوس) والصقه مكان القواعد كاملة:
+Firebase Console ← Firestore Database ← Rules ← امسح القديم ← الصق ← Publish
+
+⚠️ مهم: الصق القواعد واضغط Publish أول شي، وبعدها ارفع ملفات الموقع.
+
+الملفات يلي تغيّرت بنسخة v18 (فوق v17):
+- app.js        (روابط المسوقين ?ref=CODE: الموقع بيحفظ أول رابط 30 يوم؛ الكود بينحفظ مع الحساب والدفعات والاستفسارات؛ تبويب «المسوقين» بلوحة الأدمن؛ عمود «المسوق» بالجداول)
+- firebase.js   (حفظ ref مع الحساب والدفعة والاستفسار؛ دوال المسوقين للأدمن)
+- firestore.rules (حقل ref اختياري بالتسجيل والدفعات والاستفسارات؛ الطالب ما بيقدر يغيّره؛ مجموعة marketers للأدمن بس؛ باقي القواعد نفسها)
+- style.css     (تصميم تبويب المسوقين)
+- كل ملفات HTML (16 ملف: ?v=17 ← ?v=18)
+------------------------------------------------------------
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    function shortStr(v, n) { return v is string && v.size() > 0 && v.size() <= n; }
+    function refOk(d) { return !('ref' in d) || (d.ref is string && d.ref.matches('^[a-z0-9-]{2,20}$')); }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+
+      allow create: if isAdmin() || (
+        signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'email', 'createdAt', 'role', 'ref'])
+        && request.resource.data.role == 'student'
+        && refOk(request.resource.data)
+        && shortStr(request.resource.data.name, 80)
+        && shortStr(request.resource.data.phone, 25)
+        && shortStr(request.resource.data.city, 60)
+        && request.resource.data.email is string
+        && request.resource.data.createdAt == request.time
+      );
+
+      allow update: if isAdmin() || (
+        signedIn() && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'city'])
+        && shortStr(request.resource.data.name, 80)
+        && shortStr(request.resource.data.phone, 25)
+        && shortStr(request.resource.data.city, 60)
+      );
+
+      allow delete: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if signedIn() && (resource.data.uid == request.auth.uid || isAdmin());
+
+      allow create: if isAdmin() || (
+        signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'phone', 'city', 'email', 'course', 'courseTitle', 'price', 'method', 'note', 'consultType', 'contactMethod', 'status', 'txId', 'createdAt', 'ref'])
+        && refOk(request.resource.data)
+        && request.resource.data.status == 'pending'
+        && request.resource.data.txId == ''
+        && request.resource.data.course in ['basics', 'volume', 'advanced', 'consultation']
+        && request.resource.data.price == {'basics': 60, 'volume': 160, 'advanced': 400, 'consultation': 20}[request.resource.data.course]
+        && request.resource.data.method in ['Sham Cash', 'Binance Pay', 'USDT TRC20', 'USDT BEP20', 'لسا ما دفعت']
+        && (!('note' in request.resource.data) || (request.resource.data.note is string && request.resource.data.note.size() <= 500))
+        && (!('consultType' in request.resource.data) || shortStr(request.resource.data.consultType, 80))
+        && (!('contactMethod' in request.resource.data) || shortStr(request.resource.data.contactMethod, 40))
+        && (request.resource.data.course != 'consultation' || (
+          'consultType' in request.resource.data && 'note' in request.resource.data
+          && shortStr(request.resource.data.note, 500)
+        ))
+        && request.resource.data.createdAt == request.time
+      );
+
+      allow update, delete: if isAdmin();
+    }
+
+    match /leads/{leadId} {
+      allow create: if request.resource.data.keys().hasOnly(['type', 'name', 'contact', 'contactMethod', 'city', 'interest', 'message', 'status', 'createdAt', 'ref'])
+        && refOk(request.resource.data)
+        && request.resource.data.keys().hasAll(['type', 'name', 'contact', 'contactMethod', 'city', 'interest', 'message', 'status', 'createdAt'])
+        && request.resource.data.type == 'inquiry'
+        && shortStr(request.resource.data.name, 80)
+        && shortStr(request.resource.data.contact, 120)
+        && shortStr(request.resource.data.contactMethod, 40)
+        && request.resource.data.city is string && request.resource.data.city.size() <= 60
+        && shortStr(request.resource.data.interest, 80)
+        && request.resource.data.message is string && request.resource.data.message.size() <= 500
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /marketers/{code} {
+      allow create: if isAdmin() && code.matches('^[a-z0-9-]{2,20}$');
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
